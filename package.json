@@ -1,0 +1,27 @@
+{
+  "name": "tabs-fields",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000T\u0000A\u0000B\u0000S\u0000-\u0000F\u0000I\u0000E\u0000L\u0000D\u0000S\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lucas1196/TABS-FIELDS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lucas1196/TABS-FIELDS/issues"
+  },
+  "homepage": "https://github.com/Lucas1196/TABS-FIELDS#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
+    "bootstrap": "^4.2.1",
+    "react-tabs": "^3.0.0"
+  },
+  "devDependencies": {}
+}
