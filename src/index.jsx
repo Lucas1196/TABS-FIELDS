@@ -52,13 +52,11 @@ class TabDemo extends React.Component {
         }
         return inputsContent;
     }
-    //Remove section ContainerInput
+    //Remove buttons from page section (actually remove the wrapper "ContainerInput")
     removeSection = () => {
         var buttons = document.getElementsByClassName("toggleInput");
-        for( let k = 0; k < buttons.length; k++) {
-            buttons[k].addEventListener("click", function() {
-                this.parentElement.remove();
-            });
+        for( let k = 0; k < 1; k++) {
+            buttons[k].parentElement.remove();
         }
     }
     //Function which add buttons on content page
@@ -74,6 +72,10 @@ class TabDemo extends React.Component {
         let content = this.state.tabsNumber;
         let contentTabs = [];
         for ( let k = 0; k < content; k++ ) {
+            // window.onload = function () { 
+            //     let tabsContent = document.getElementsByClassName("tabsContent");
+            //         tabsContent[0].className += " active-flex";
+            // }
             contentTabs.push(
                 <div className="tabsContent row" key={k}>
                     <div className="col-12 col-md-6 input-side">
