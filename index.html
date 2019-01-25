@@ -26,6 +26,29 @@
         textarea {
             resize: none;
         }
+        .container-inputButton {
+            margin-bottom:10px;
+        }
+        .input {
+            display:inline-block;
+            vertical-align:middle;
+            margin-left:10px;
+            padding:5px;
+        }
+        .toggleInput {
+            cursor:pointer;
+            display:inline-block;
+            vertical-align:middle;
+            border:1px solid #bbb8b8;
+            background-color:#bbb8b8;
+            height:20px;
+            width:20px;
+            padding-bottom:2px;
+            transition:all 0.2s ease-in 0s;
+        }
+        .toggleInput:hover {
+            background-color:transparent;
+        }
     </style>
   </head>
   <body>
@@ -33,13 +56,12 @@
   <div id="root" class="text-center container">
         
   </div>
- 
   <!-- Load React. -->
   <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
   <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   <!-- JSX -->
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-  <script src="index.js"></script>
+  <script src="index.js" type="text/javascript"></script>
   </body>
 </html>
