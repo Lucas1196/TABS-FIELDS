@@ -1,34 +1,39 @@
 class TabDemo extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = { 
             tabsNumber: 4,
-            inputs: 5,
+            inputs: 1,
         }
     }
-    tabsFunction = () => {
-        let tabs = this.state.tabsNumber;
+    //Function for Tabs (A1,B4,C7,D10,E13,F16,G19 etc..)
+    tabsDraw = () => {
+        let tabsNo = this.state.tabsNumber;
         let tabsContainer = [];
-        for( let i = 0; i < tabs; i++) {
-            tabsContainer.push(<div className="tab" key={i}></div>)
-            window.onload = function () {
-                let tabsVariable = document.getElementsByClassName("tab");
-                    tabsVariable[0].className += " active";
-                let startingNum = 1;
-                for( let k = 0; k < tabsVariable.length; k++) {
-                    tabsVariable[k].addEventListener("click", function() {
-                        let current = document.getElementsByClassName("active");
-                            current[0].className = current[0].className.replace(" active", "");
-                        this.className += " active";
-                    });
-                    for (j = 0; j < 26; j++) {
-                        tabsVariable[j].innerHTML = (j+10).toString(36) + startingNum;
-                        startingNum += 3;
-                    }
-                }
+        let tabNum = 1;
+        let tabChar = 'a';
+        for( let i = 0; i < tabsNo; i++) {
+            if(i > 0) {
+                var it = (parseInt(tabChar, 36) + 1 ) % 36;
+                tabChar = (!it * 10 + it).toString(36);
             }
-        }
+            tabsContainer.push(<div className="tab" onClick = {this.beActive} key={i}>{tabChar}{tabNum}</div>)
+            tabNum += 3;
+     }
+        tabsContainer[0].props.className += " active";
         return tabsContainer;
+    }
+    activeTab = (el) => {
+        let tabs = document.getElementsByClassName("tab");
+            tabs[0].className += " active";
+    }
+    //Move class active on click
+    beActive = (el) => {
+        var active = document.querySelector(".active");
+        if(active !== null){
+            active.classList.remove("active");
+        }
+        el.target.className += " active";
     }
     //Function for container-input-buttons
     containerInputFunction = () => {
@@ -36,9 +41,12 @@ class TabDemo extends React.Component {
         let inputsContainer = [];
         for ( i = 0; i < inputsNumber; i++ ) {
             inputsContainer.push(
-                <div className="container-inputButton" key={i}>
-                    {this.buttonsFunction()}
-                    {this.inputFunction()}
+                <div className="containerinputButton" key={i}>
+                    <div className="subcontainer">
+                        {this.buttonsFunction()}
+                        {this.inputFunction()}
+                    </div>
+                    {this.buttonsPlus()}
                 </div>
             )
         }
@@ -48,40 +56,46 @@ class TabDemo extends React.Component {
     inputFunction = () => {
         let inputsContent = [];
         for ( j = 0; j < 1; j++ ) {
-            inputsContent.push(<input type="text" className="input" key={j}></input>)
+            inputsContent.push(<input type="text" className="input" defaultValue="Adrian" key={j}></input>)
         }
         return inputsContent;
     }
     //Remove buttons from page section (actually remove the wrapper "ContainerInput")
     removeSection = () => {
-        var buttons = document.getElementsByClassName("toggleInput");
-        for( let k = 0; k < 1; k++) {
-            buttons[k].parentElement.remove();
+        var buttons = document.getElementsByClassName("minusButton");
+        for( let k = 0; k < 1; k++ ) {
+            // buttons[k].onclick = function() {
+                buttons[k].parentElement.remove();
+            // }
+            // buttons[k].parentElement.remove(this);
         }
     }
     //Function which add buttons on content page
     buttonsFunction = () => {
         let buttonsContent = [];
         for ( j = 0; j < 1; j++ ) {
-            buttonsContent.push(<button onClick={this.removeSection} className="toggleInput" key={j}>-</button>)
+            buttonsContent.push(<button onClick={this.removeSection} className="minusButton" key={j}>-</button>)
         }
         return buttonsContent;
+    }
+    buttonsPlus = () => {
+        let buttonsPlus = [];
+        for ( j = 0; j < 1; j++ ) {
+            buttonsPlus.push(<button /*onClick={this.addSection}*/ className="plusButton" key={j}>+</button>)
+        }
+        return buttonsPlus;
     }
     //Function which add content on page
     contentTabs = () => {
         let content = this.state.tabsNumber;
         let contentTabs = [];
         for ( let k = 0; k < content; k++ ) {
-            // window.onload = function () { 
-            //     let tabsContent = document.getElementsByClassName("tabsContent");
-            //         tabsContent[0].className += " active-flex";
-            // }
             contentTabs.push(
                 <div className="tabsContent row" key={k}>
-                    <div className="col-12 col-md-6 input-side">
+                    <div className="col-12 col-md-6 input-side text-left">
                         {this.containerInputFunction()}
                     </div>
-                    <div className="col-12 col-md-6 textarea-side">
+                    <div className="col-12 col-md-6 textarea-side text-right">
                         <textarea name="textarea" className="textarea-tab" cols="30" rows="10"></textarea>
                     </div>
                 </div>
@@ -93,7 +107,7 @@ class TabDemo extends React.Component {
         return (
             <div className="inner-root row">
                 <div className="tabs col-12">
-                    {this.tabsFunction()}
+                    {this.tabsDraw()}
                 </div>
                 <div className="content-tabs col-12">
                     {this.contentTabs()}

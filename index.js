@@ -9,34 +9,44 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var TabDemo = function (_React$Component) {
     _inherits(TabDemo, _React$Component);
 
-    function TabDemo() {
+    function TabDemo(props) {
         _classCallCheck(this, TabDemo);
 
-        var _this = _possibleConstructorReturn(this, (TabDemo.__proto__ || Object.getPrototypeOf(TabDemo)).call(this));
+        var _this = _possibleConstructorReturn(this, (TabDemo.__proto__ || Object.getPrototypeOf(TabDemo)).call(this, props));
 
-        _this.tabsFunction = function () {
-            var tabs = _this.state.tabsNumber;
+        _this.tabsDraw = function () {
+            var tabsNo = _this.state.tabsNumber;
             var tabsContainer = [];
-            for (var _i = 0; _i < tabs; _i++) {
-                tabsContainer.push(React.createElement("div", { className: "tab", key: _i }));
-                window.onload = function () {
-                    var tabsVariable = document.getElementsByClassName("tab");
-                    tabsVariable[0].className += " active";
-                    var startingNum = 1;
-                    for (var k = 0; k < tabsVariable.length; k++) {
-                        tabsVariable[k].addEventListener("click", function () {
-                            var current = document.getElementsByClassName("active");
-                            current[0].className = current[0].className.replace(" active", "");
-                            this.className += " active";
-                        });
-                        for (j = 0; j < 26; j++) {
-                            tabsVariable[j].innerHTML = (j + 10).toString(36) + startingNum;
-                            startingNum += 3;
-                        }
-                    }
-                };
+            var tabNum = 1;
+            var tabChar = 'a';
+            for (var _i = 0; _i < tabsNo; _i++) {
+                if (_i > 0) {
+                    var it = (parseInt(tabChar, 36) + 1) % 36;
+                    tabChar = (!it * 10 + it).toString(36);
+                }
+                tabsContainer.push(React.createElement(
+                    "div",
+                    { className: "tab", onClick: _this.beActive, key: _i },
+                    tabChar,
+                    tabNum
+                ));
+                tabNum += 3;
             }
+            tabsContainer[0].props.className += " active";
             return tabsContainer;
+        };
+
+        _this.activeTab = function (el) {
+            var tabs = document.getElementsByClassName("tab");
+            tabs[0].className += " active";
+        };
+
+        _this.beActive = function (el) {
+            var active = document.querySelector(".active");
+            if (active !== null) {
+                active.classList.remove("active");
+            }
+            el.target.className += " active";
         };
 
         _this.containerInputFunction = function () {
@@ -45,9 +55,14 @@ var TabDemo = function (_React$Component) {
             for (i = 0; i < inputsNumber; i++) {
                 inputsContainer.push(React.createElement(
                     "div",
-                    { className: "container-inputButton", key: i },
-                    _this.buttonsFunction(),
-                    _this.inputFunction()
+                    { className: "containerinputButton", key: i },
+                    React.createElement(
+                        "div",
+                        { className: "subcontainer" },
+                        _this.buttonsFunction(),
+                        _this.inputFunction()
+                    ),
+                    _this.buttonsPlus()
                 ));
             }
             return inputsContainer;
@@ -56,17 +71,18 @@ var TabDemo = function (_React$Component) {
         _this.inputFunction = function () {
             var inputsContent = [];
             for (j = 0; j < 1; j++) {
-                inputsContent.push(React.createElement("input", { type: "text", className: "input", key: j }));
+                inputsContent.push(React.createElement("input", { type: "text", className: "input", defaultValue: "Adrian", key: j }));
             }
             return inputsContent;
         };
 
         _this.removeSection = function () {
-            var buttons = document.getElementsByClassName("toggleInput");
-            for (var k = 0; k < buttons.length; k++) {
-                buttons[k].addEventListener("click", function () {
-                    this.parentElement.remove();
-                });
+            var buttons = document.getElementsByClassName("minusButton");
+            for (var k = 0; k < 1; k++) {
+                // buttons[k].onclick = function() {
+                buttons[k].parentElement.remove();
+                // }
+                // buttons[k].parentElement.remove(this);
             }
         };
 
@@ -75,11 +91,23 @@ var TabDemo = function (_React$Component) {
             for (j = 0; j < 1; j++) {
                 buttonsContent.push(React.createElement(
                     "button",
-                    { onClick: _this.removeSection, className: "toggleInput", key: j },
+                    { onClick: _this.removeSection, className: "minusButton", key: j },
                     "-"
                 ));
             }
             return buttonsContent;
+        };
+
+        _this.buttonsPlus = function () {
+            var buttonsPlus = [];
+            for (j = 0; j < 1; j++) {
+                buttonsPlus.push(React.createElement(
+                    "button",
+                    { /*onClick={this.addSection}*/className: "plusButton", key: j },
+                    "+"
+                ));
+            }
+            return buttonsPlus;
         };
 
         _this.contentTabs = function () {
@@ -91,12 +119,12 @@ var TabDemo = function (_React$Component) {
                     { className: "tabsContent row", key: k },
                     React.createElement(
                         "div",
-                        { className: "col-12 col-md-6 input-side" },
+                        { className: "col-12 col-md-6 input-side text-left" },
                         _this.containerInputFunction()
                     ),
                     React.createElement(
                         "div",
-                        { className: "col-12 col-md-6 textarea-side" },
+                        { className: "col-12 col-md-6 textarea-side text-right" },
                         React.createElement("textarea", { name: "textarea", className: "textarea-tab", cols: "30", rows: "10" })
                     )
                 ));
@@ -106,15 +134,19 @@ var TabDemo = function (_React$Component) {
 
         _this.state = {
             tabsNumber: 4,
-            inputs: 5
+            inputs: 1
         };
         return _this;
     }
+    //Function for Tabs (A1,B4,C7,D10,E13,F16,G19 etc..)
+
+    //Move class active on click
+
     //Function for container-input-buttons
 
     //Function which add inputs on content page
 
-    //Remove section ContainerInput
+    //Remove buttons from page section (actually remove the wrapper "ContainerInput")
 
     //Function which add buttons on content page
 
@@ -130,7 +162,7 @@ var TabDemo = function (_React$Component) {
                 React.createElement(
                     "div",
                     { className: "tabs col-12" },
-                    this.tabsFunction()
+                    this.tabsDraw()
                 ),
                 React.createElement(
                     "div",
