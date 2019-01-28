@@ -71,11 +71,13 @@ const data = {
       ]
     }
 }
- 
 ReactDOM.render(
   <Tabs data={ data } />, document.getElementById('root')
 );
 
+// ai inceput gresit si eu m am luat dupa tine, vad ca trebuie folosite tagurile lor, de react. m am plictisit
+// la cum s a facut ar trebui pus contenturile care sa aiba acelasi id cu tab si sa se faca displau la el cand id-ul este egal cu id-ul activ. am iesit.  nb!
+// https://react-bootstrap.github.io/components/tabs/
 // // class TabDemo extends React.Component {
 // //     constructor(props) {
 // //         super(props);
