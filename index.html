@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="reset.css">
     <style>
-        .tab {
+        .navigation div {
             width:50px;
             height:30px;
             line-height:30px;
@@ -20,13 +20,16 @@
             margin:20px;
             cursor:pointer;
         }
+        .active {
+            background-color:yellowgreen !important;
+        }
         .tabsContent {
             /* display:none; */
         }
         textarea {
             resize: none;
         }
-        .container-inputButton {
+        .containerinputButton {
             margin-bottom:10px;
         }
         .input {
@@ -35,7 +38,7 @@
             margin-left:10px;
             padding:5px;
         }
-        .toggleInput {
+        .minusButton {
             cursor:pointer;
             display:inline-block;
             vertical-align:middle;
@@ -46,8 +49,20 @@
             padding-bottom:2px;
             transition:all 0.2s ease-in 0s;
         }
-        .toggleInput:hover {
+        .minusButton:hover, .plusButton:hover {
             background-color:transparent;
+        }
+        .plusButton {
+            display:block;
+            cursor:pointer;
+            vertical-align:middle;
+            border:1px solid #bbb8b8;
+            background-color:#bbb8b8;
+            height:20px;
+            width:20px;
+            padding-bottom:2px;
+            transition:all 0.2s ease-in 0s;
+            font-size:12px;
         }
         .active-flex {
             display:flex;
@@ -61,8 +76,10 @@
   </div>
   <!-- Load React. -->
   <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
+  <!-- <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script> -->
+  <!-- <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> -->
   <!-- JSX -->
   <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
   <script src="index.js" type="text/javascript"></script>
