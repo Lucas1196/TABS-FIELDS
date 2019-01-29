@@ -66,9 +66,8 @@ class App extends React.Component {
     });
   }
   contentTabs() {
-    let content = 2;
     let contentTabs = [];
-    for ( let k = 1; k < content; k++ ) {
+    for ( let k = 1; k < 2; k++ ) {
       contentTabs.push(
         <div className="tabContent row">
           <div className="col-12 col-sm-6 input-side text-left">
