@@ -55,103 +55,83 @@ class App extends React.Component {
     super(props);
     this.state = {
       activeIndex : 1,
-      value: 'Adrian',
-      inputsNumber: 2,
+      value: 'Add',
+      inputsNumber: 1,
+      inputs: ["Input Page"," Input Page"," Input Page"],
     };
-    this.handleChange = this.handleChange.bind(this);
   }
-  handleChange(event) {
+  //Function for add new input when you push press Button ADD NEW INPUT
+  handleAdd() {
     this.setState({
-      value: event.target.value,
-    });
+      inputs: [...this.state.inputs, "New input"]
+    })
   }
-  contentTabs() {
-    let contentTabs = [];
-    for ( let k = 1; k < 2; k++ ) {
-      contentTabs.push(
-        <div className="tabContent row">
-          <div className="col-12 col-sm-6 input-side text-left">
-            <div className="addNewfield text-center">
-              {this.buttonPlus()}
-            </div>
-            {this.containerInputFunction()}
-          </div>
-          <div className="col-12 col-sm-6 textarea-side text-right">
-            <textarea name="textarea" className="textarea-tab" cols="30" rows="15" value={this.state.value}></textarea>
-          </div>
-        </div>
-      )
-    }
-    return contentTabs;
+  //Function for change input value
+  handleChange(e, index) {
+    this.state.inputs[index] = e.target.value
+    this.setState({
+      inputs: this.state.inputs
+    })
   }
-  //Function for container-input-buttons
-  containerInputFunction() {
-    let inputsContainer = [];
-    for ( i = 0; i < this.state.inputsNumber; i++ ) {
-      inputsContainer.push(
-        <div className="subcontainer" key={i}>
-          {this.buttonsFunction()}
-          {this.inputFunction()}
-        </div>
-      )
-    }
-    return inputsContainer;
-  }
-  //Function which add inputs on content page
-  inputFunction() {
-    state = {};
-    var inputsContent = [];
-        inputsContent.push(
-          <input type='text' value={this.state.value} onChange={this.handleChange} className="input" />
-        );
-    return inputsContent;
-  }
-  //Function which add buttons on content page
-  buttonsFunction() {
-    let buttonsContent = [];
-        buttonsContent.push(<button onClick={this.removeSection} className="minusButton">-</button>)
-    return buttonsContent;
-  }
-  //Function which add button plus on page
-  buttonPlus() {
-    let buttonsPlus = [];
-        buttonsPlus.push(<button className="plusButton">Add new field</button>)
-    return buttonsPlus;
-  }
-  //Function for removeInput SUBCONTAINER
-  removeSection() {
-    let buttons = document.getElementsByClassName("minusButton");
-    for( let k = 0; k < 1; k++ ) {
-      buttons[k].parentElement.remove();
-    }
+  //Function for Remove input 
+  handleRemove(index) {
+    this.state.inputs.splice(index, 1)
+    this.setState({
+      inputs: this.state.inputs
+    })
   }
   //Function for content Tabs
   tabsDraw() { 
-  let tabsNo = 5;
-  let tabNum = 1;
-  let tabChar = 'a';
-  let total = [];
-  for( let i = 1; i < tabsNo; i++) {
-    total.push({ id: i, name: tabChar.toUpperCase() + tabNum })
-      if(i > 0) {
+    let tabsNo = 6;
+    let tabNum = 1;
+    let tabChar = 'a';
+    let total = [];
+    for( let i = 1; i < tabsNo; i++) {
+      total.push({ id: i, name: tabChar.toUpperCase() + tabNum })
+        if(i > 0) {
           var it = (parseInt(tabChar, 36) + 1 ) % 36;
-        tabChar = (!it * 10 + it).toString(36);
+          tabChar = (!it * 10 + it).toString(36);
+      }
+      tabNum += 3;
     }
-    tabNum += 3;
-  }
-  return total;
+    return total;
   }
   render() {
     let tabs = this.tabsDraw()
         tabs = tabs.map(function (el, i) {
-        return <Tab id={el.id} key={i} content={el.name} title={el.name}> 
-                  {this.contentTabs()}
+        return  <Tab id={el.id} key={i} content={el.name} title={el.name}> 
+                  <div className="tabContent row">
+                    <div className="col-12 col-sm-6 input-side text-left">
+                      <div className="addNewfield text-center">
+                        <button onClick={(e)=>this.handleAdd(e)} className="plusButton">
+                          Add new input
+                        </button>
+                      </div>
+                      {
+                        this.state.inputs.map((input, index) => {
+                          return (
+                            <div className="subcontainer" key={index}>
+                              <button onClick={()=>this.handleRemove(index)} className="minusButton">
+                                &#9473;
+                              </button>
+                              <input onChange={(e)=>this.handleChange(e, index)} value={input} className="input"/>
+                            </div>
+                          )
+                        })
+                      }
+                    </div>
+                    <div className="col-12 col-sm-6 textarea-side text-right">
+                        <textarea name="textarea" className="textarea-tab" cols="30" rows="15" value={this.state.inputs}>
+                        \n
+                        </textarea>
+                    </div>
+                  </div>
                 </Tab>
     }, this);
     return (    
       <Tabs className="tabs-wrapper">
         {tabs}
-      </Tabs>       
+      </Tabs>      
     );
   }
 }

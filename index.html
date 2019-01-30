@@ -8,69 +8,102 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="reset.css">
     <style>
-        .navigation div {
-            width:50px;
+        div.tabs-nav {
+            list-style: none;
+            margin: 0px 0px 80px 0px;
+        }
+        div.tabs-nav div {
+            width:160px;
             height:30px;
             line-height:30px;
             letter-spacing:0.5px;
             text-transform:uppercase;
             background-color:gray;
+            color:white;
             display:inline-block;
             vertical-align:middle;
-            margin:20px;
+            margin:30px 20px;
             cursor:pointer;
         }
-        .active {
-            background-color:yellowgreen !important;
+        div.tabs-nav div:hover {
+            text-decoration: none;
         }
-        .tabsContent {
-            /* display:none; */
+        div.tabs-nav div.active {
+            background: yellowgreen;
+            text-decoration: none;
+        }
+        .tabs-content div.tab-panel {
+            display:none;
+        }
+        .tabs-content div.tab-panel.active {
+            display: block;
+        }
+        .active-flex {
+            display:flex !important;
+        }
+        .tabContent {
+            margin:25px 15px;
         }
         textarea {
             resize: none;
+            width:100%;
+            padding:10px;
+            white-space: pre-wrap;
         }
         .containerinputButton {
             margin-bottom:10px;
         }
+        .subcontainer {
+            position:relative;
+            margin-bottom:25px;
+        }
+        .subcontainer div {
+            position:relative;
+        }
         .input {
             display:inline-block;
             vertical-align:middle;
-            margin-left:10px;
-            padding:5px;
+            margin-left:50px;
+            padding:6px;
+            width:90%;
         }
         .minusButton {
+            position:absolute;
+            top:0px;
+            left:0px;
             cursor:pointer;
             display:inline-block;
+            padding:6px 10px 6px;
             vertical-align:middle;
             border:1px solid #bbb8b8;
-            background-color:#bbb8b8;
-            height:20px;
-            width:20px;
-            padding-bottom:2px;
+            background-color:transparent;
             transition:all 0.2s ease-in 0s;
         }
         .minusButton:hover, .plusButton:hover {
             background-color:transparent;
         }
         .plusButton {
-            display:block;
+            display:inline-block;
+            padding:10px 8px;
             cursor:pointer;
             vertical-align:middle;
-            border:1px solid #bbb8b8;
-            background-color:#bbb8b8;
-            height:20px;
-            width:20px;
-            padding-bottom:2px;
+            border:1px solid yellowgreen;
+            background-color:transparent;
             transition:all 0.2s ease-in 0s;
-            font-size:12px;
+            width:180px;
+            margin-bottom:50px;
+            background-color:yellowgreen;
+            color:white;
+            text-transform:capitalize;
+            letter-spacing:0.5px;
         }
-        .active-flex {
-            display:flex;
+        .plusButton:hover {
+            color:black;
+            border:1px solid black;
         }
     </style>
   </head>
   <body>
-  
   <div id="root" class="text-center container">
         
   </div>

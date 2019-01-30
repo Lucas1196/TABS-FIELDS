@@ -1,203 +1,231 @@
-var Tab = React.createClass({
-  displayName: 'Tab',
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-  render: function render() {
-    return React.createElement(
-      'div',
-      { id: this.props.id,
-        className: this.props.isActive ? 'active' : '',
-        onClick: this.props.onActiveTab
-      },
-      React.createElement(
-        'p',
-        null,
-        this.props.content
-      )
-    );
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Tabs = function (_React$Component) {
+  _inherits(Tabs, _React$Component);
+
+  function Tabs() {
+    _classCallCheck(this, Tabs);
+
+    var _this = _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this));
+
+    _this.state = {
+      activeIndex: 1
+    };
+    return _this;
   }
-});
 
-var Tabs = React.createClass({
-  displayName: 'Tabs',
-
-  getInitialState: function getInitialState() {
-    return { selectedTabId: 1 };
-  },
-
-  isActive: function isActive(id) {
-    return this.state.selectedTabId === id;
-  },
-
-  setActiveTab: function setActiveTab(selectedTabId) {
-    this.setState({ selectedTabId: selectedTabId });
-  },
-  tabsNo: function tabsNo() {
-    return this.state.tabsNo = 5;
-  },
-  tabsDraw: function tabsDraw() {
-    var tabsNo = this.tabsNo();
-    var tabNum = 1;
-    var tabChar = 'a';
-    var total = [];
-    for (var i = 1; i < tabsNo; i++) {
-
-      total.push({ id: i, name: tabChar.toUpperCase() + tabNum, text: 'text' });
-      if (i > 0) {
-        var it = (parseInt(tabChar, 36) + 1) % 36;
-        tabChar = (!it * 10 + it).toString(36);
-      }
-      tabNum += 3;
-    }
-    //console.log(total);
-    return total;
-  },
-
-  render: function render() {
-    // var total = this.props.data.points.total;
-    var total = this.tabsDraw(),
-        tabs = total.map(function (el, i) {
-      return React.createElement(Tab, {
-        id: el.id,
-        key: i,
-        content: el.name,
-        isActive: this.isActive(el.id),
-        onActiveTab: this.setActiveTab.bind(this, el.id)
+  _createClass(Tabs, [{
+    key: 'handleOnClick',
+    value: function handleOnClick(key) {
+      this.setState({
+        activeIndex: key
       });
-    }, this);
+    }
+  }, {
+    key: 'renderNavItem',
+    value: function renderNavItem(key) {
+      var tab = this.props.children[key];
+      return React.createElement(
+        'div',
+        { key: key, onClick: this.handleOnClick.bind(this, key), className: this.state.activeIndex == key ? 'tab active' : 'tab' },
+        tab.props.content
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var index = 0;
+      var active = this.state.activeIndex;
+      var tabs = React.Children.map(this.props.children, function (child) {
+        return React.cloneElement(child, {
+          active: child.props.active === true ? true : active == index++
+        });
+      });
+      return React.createElement(
+        'div',
+        { className: this.props.className },
+        React.createElement(
+          'div',
+          { className: 'tabs-nav' },
+          Object.keys(this.props.children).map(this.renderNavItem.bind(this))
+        ),
+        React.createElement(
+          'div',
+          { className: 'tabs-content' },
+          tabs
+        )
+      );
+    }
+  }]);
 
-    return React.createElement(
-      'div',
-      { className: 'navigation' },
-      tabs
-    );
-    //   <div className="content-tabs">
+  return Tabs;
+}(React.Component);
 
-    //   </div>
+var Tab = function (_React$Component2) {
+  _inherits(Tab, _React$Component2);
+
+  function Tab() {
+    _classCallCheck(this, Tab);
+
+    return _possibleConstructorReturn(this, (Tab.__proto__ || Object.getPrototypeOf(Tab)).apply(this, arguments));
   }
-});
 
-var data = {
-  points: {
-    total: []
-  }
+  _createClass(Tab, [{
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: "tab-panel" + (this.props.active ? ' active' : '') },
+        this.props.children
+      );
+    }
+  }]);
+
+  return Tab;
+}(React.Component);
+
+Tab.defaultProps = {
+  active: false
 };
 
-ReactDOM.render(React.createElement(Tabs, { data: data }), document.getElementById('root'));
+var App = function (_React$Component3) {
+  _inherits(App, _React$Component3);
 
-// // class TabDemo extends React.Component {
-// //     constructor(props) {
-// //         super(props);
-// //         this.state = { 
-// //             tabsNumber: 4,
-// //             inputs: 1,
-// //         }
-// //     }
-// //     //Function for Tabs (A1,B4,C7,D10,E13,F16,G19 etc..)
-// //     tabsDraw = () => {
-// //         let tabsNo = this.state.tabsNumber;
-// //         let tabsContainer = [];
-// //         let tabNum = 1;
-// //         let tabChar = 'a';
-// //         for( let i = 0; i < tabsNo; i++) {
-// //             if(i > 0) {
-// //                 var it = (parseInt(tabChar, 36) + 1 ) % 36;
-// //                 tabChar = (!it * 10 + it).toString(36);
-// //             }
-// //             tabsContainer.push(<div className="tab" onClick = {this.beActive} key={i}>{tabChar}{tabNum}</div>)
-// //             tabNum += 3;
-// //         }
-// //         tabsContainer[0].className += " active";
-// //         console.log(tabsContainer[0]);
-// //         console.log(tabsContainer[0].props.className);
-// //         return tabsContainer;
-// //     }
-// //     //Move class active on click
-// //     beActive = (el) => {
-// //         var active = document.querySelector(".active");
-// //         if(active !== null){
-// //             active.classList.remove("active");
-// //         }
-// //         el.target.className += " active";
-// //     }
-// //     //Function for container-input-buttons
-// //     containerInputFunction = () => {
-// //         let inputsNumber = this.state.inputs;
-// //         let inputsContainer = [];
-// //         for ( i = 0; i < inputsNumber; i++ ) {
-// //             inputsContainer.push(
-// //                 <div className="containerinputButton" key={i}>
-// //                     <div className="subcontainer">
-// //                         {this.buttonsFunction()}
-// //                         {this.inputFunction()}
-// //                     </div>
-// //                     {this.buttonsPlus()}
-// //                 </div>
-// //             )
-// //         }
-// //         return inputsContainer;
-// //     }
-// //     //Function which add inputs on content page
-// //     inputFunction = () => {
-// //         let inputsContent = [];
-// //         for ( j = 0; j < 1; j++ ) {
-// //             inputsContent.push(<input type="text" className="input" defaultValue="Adrian" key={j}></input>)
-// //         }
-// //         return inputsContent;
-// //     }
-// //     //Remove buttons from page section (actually remove the wrapper "ContainerInput")
-// //     removeSection = () => {
-// //         var buttons = document.getElementsByClassName("minusButton");
-// //         for( let k = 0; k < 1; k++ ) {
-// //             // buttons[k].onclick = function() {
-// //                 buttons[k].parentElement.remove();
-// //             // }
-// //             // buttons[k].parentElement.remove(this);
-// //         }
-// //     }
-// //     //Function which add buttons on content page
-// //     buttonsFunction = () => {
-// //         let buttonsContent = [];
-// //         for ( j = 0; j < 1; j++ ) {
-// //             buttonsContent.push(<button onClick={this.removeSection} className="minusButton" key={j}>-</button>)
-// //         }
-// //         return buttonsContent;
-// //     }
-// //     buttonsPlus = () => {
-// //         let buttonsPlus = [];
-// //         for ( j = 0; j < 1; j++ ) {
-// //             buttonsPlus.push(<button /*onClick={this.addSection}*/ className="plusButton" key={j}>+</button>)
-// //         }
-// //         return buttonsPlus;
-// //     }
-// //     //Function which add content on page
-// //     contentTabs = () => {
-// //         let content = this.state.tabsNumber;
-// //         let contentTabs = [];
-// //         for ( let k = 0; k < content; k++ ) {
-// //             contentTabs.push(
-// //                 <div className="tabsContent row" key={k}>
-// //                     <div className="col-12 col-md-6 input-side text-left">
-// //                         {this.containerInputFunction()}
-// //                     </div>
-// //                     <div className="col-12 col-md-6 textarea-side text-right">
-// //                         <textarea name="textarea" className="textarea-tab" cols="30" rows="10"></textarea>
-// //                     </div>
-// //                 </div>
-// //             )
-// //         }
-// //         return contentTabs;
-// //     }   
-// //     render() {
-// //         return (
-// //             <div className="inner-root row">
-// //                 <div className="tabs col-12">
-// //                     {this.tabsDraw()}
-// //                 </div>
-// //                 <div className="content-tabs col-12">
-// //                     {this.contentTabs()}
-// //                 </div>
-// //             </div>
-// //         )
-// //     }
-// // }
-// // ReactDOM.render(<TabDemo />, document.getElementById('root'));
+  function App(props) {
+    _classCallCheck(this, App);
+
+    var _this3 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this3.state = {
+      activeIndex: 1,
+      value: 'Add',
+      inputsNumber: 1,
+      inputs: ["Input Page", " Input Page", " Input Page"]
+    };
+    return _this3;
+  }
+  //Function for add new input when you push press Button ADD NEW INPUT
+
+
+  _createClass(App, [{
+    key: 'handleAdd',
+    value: function handleAdd() {
+      this.setState({
+        inputs: [].concat(_toConsumableArray(this.state.inputs), ["New input"])
+      });
+    }
+    //Function for change input value
+
+  }, {
+    key: 'handleChange',
+    value: function handleChange(e, index) {
+      this.state.inputs[index] = e.target.value;
+      this.setState({
+        inputs: this.state.inputs
+      });
+    }
+    //Function for Remove input 
+
+  }, {
+    key: 'handleRemove',
+    value: function handleRemove(index) {
+      this.state.inputs.splice(index, 1);
+      this.setState({
+        inputs: this.state.inputs
+      });
+    }
+    //Function for content Tabs
+
+  }, {
+    key: 'tabsDraw',
+    value: function tabsDraw() {
+      var tabsNo = 6;
+      var tabNum = 1;
+      var tabChar = 'a';
+      var total = [];
+      for (var i = 1; i < tabsNo; i++) {
+        total.push({ id: i, name: tabChar.toUpperCase() + tabNum });
+        if (i > 0) {
+          var it = (parseInt(tabChar, 36) + 1) % 36;
+          tabChar = (!it * 10 + it).toString(36);
+        }
+        tabNum += 3;
+      }
+      return total;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var tabs = this.tabsDraw();
+      tabs = tabs.map(function (el, i) {
+        var _this4 = this;
+
+        return React.createElement(
+          Tab,
+          { id: el.id, key: i, content: el.name, title: el.name },
+          React.createElement(
+            'div',
+            { className: 'tabContent row' },
+            React.createElement(
+              'div',
+              { className: 'col-12 col-sm-6 input-side text-left' },
+              React.createElement(
+                'div',
+                { className: 'addNewfield text-center' },
+                React.createElement(
+                  'button',
+                  { onClick: function onClick(e) {
+                      return _this4.handleAdd(e);
+                    }, className: 'plusButton' },
+                  'Add new input'
+                )
+              ),
+              this.state.inputs.map(function (input, index) {
+                return React.createElement(
+                  'div',
+                  { className: 'subcontainer', key: index },
+                  React.createElement(
+                    'button',
+                    { onClick: function onClick() {
+                        return _this4.handleRemove(index);
+                      }, className: 'minusButton' },
+                    '\u2501'
+                  ),
+                  React.createElement('input', { onChange: function onChange(e) {
+                      return _this4.handleChange(e, index);
+                    }, value: input, className: 'input' })
+                );
+              })
+            ),
+            React.createElement(
+              'div',
+              { className: 'col-12 col-sm-6 textarea-side text-right' },
+              React.createElement(
+                'textarea',
+                { name: 'textarea', className: 'textarea-tab', cols: '30', rows: '15', value: this.state.inputs },
+                '\\n'
+              )
+            )
+          )
+        );
+      }, this);
+      return React.createElement(
+        Tabs,
+        { className: 'tabs-wrapper' },
+        tabs
+      );
+    }
+  }]);
+
+  return App;
+}(React.Component);
+
+ReactDOM.render(React.createElement(App, null), document.getElementById('root'));
