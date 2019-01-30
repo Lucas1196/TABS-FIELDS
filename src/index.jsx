@@ -136,14 +136,12 @@ class App extends React.Component {
   render() {
     let tabs = this.tabsDraw()
         tabs = tabs.map(function (el, i) {
-        return  <Tab id={el.id} key={i} content={el.name} title={el.name}> 
-                  
-                </Tab>
+        return  <Tab id={el.id} key={i} content={el.name} title={el.name}></Tab>
     }, this);
     return (    
       <Tabs className="tabs-wrapper">
         {tabs}
-      </Tabs>      
+      </Tabs>
     );
   }
 }
