@@ -72,54 +72,26 @@ var Tabs = function (_React$Component) {
 var Tab = function (_React$Component2) {
   _inherits(Tab, _React$Component2);
 
-  function Tab() {
+  function Tab(props) {
     _classCallCheck(this, Tab);
 
-    return _possibleConstructorReturn(this, (Tab.__proto__ || Object.getPrototypeOf(Tab)).apply(this, arguments));
+    var _this2 = _possibleConstructorReturn(this, (Tab.__proto__ || Object.getPrototypeOf(Tab)).call(this, props));
+
+    _this2.state = {
+      activeIndex: 1,
+      inputsNumber: 1,
+      inputs: [" Input1", " Input2 "]
+    };
+    return _this2;
   }
+  //Function for add new input when you push press
+
 
   _createClass(Tab, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'div',
-        { className: "tab-panel" + (this.props.active ? ' active' : '') },
-        this.props.children
-      );
-    }
-  }]);
-
-  return Tab;
-}(React.Component);
-
-Tab.defaultProps = {
-  active: false
-};
-
-var App = function (_React$Component3) {
-  _inherits(App, _React$Component3);
-
-  function App(props) {
-    _classCallCheck(this, App);
-
-    var _this3 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-    _this3.state = {
-      activeIndex: 1,
-      value: 'Add',
-      inputsNumber: 1,
-      inputs: ["Input Page", " Input Page", " Input Page"]
-    };
-    return _this3;
-  }
-  //Function for add new input when you push press Button ADD NEW INPUT
-
-
-  _createClass(App, [{
     key: 'handleAdd',
     value: function handleAdd() {
       this.setState({
-        inputs: [].concat(_toConsumableArray(this.state.inputs), ["New input"])
+        inputs: [].concat(_toConsumableArray(this.state.inputs), [" New input "])
       });
     }
     //Function for change input value
@@ -142,12 +114,94 @@ var App = function (_React$Component3) {
         inputs: this.state.inputs
       });
     }
-    //Function for content Tabs
-
   }, {
+    key: 'contentTabs',
+    value: function contentTabs() {
+      var _this3 = this;
+
+      var contentTabs = [];
+      for (var k = 1; k < 2; k++) {
+        contentTabs.push(React.createElement(
+          'div',
+          { className: 'tabContent row' },
+          React.createElement(
+            'div',
+            { className: 'col-12 col-sm-12 col-md-6 input-side text-left' },
+            React.createElement(
+              'div',
+              { className: 'addNewfield text-center' },
+              React.createElement(
+                'button',
+                { onClick: function onClick(e) {
+                    return _this3.handleAdd(e);
+                  }, className: 'plusButton' },
+                'Add new input'
+              )
+            ),
+            this.state.inputs.map(function (input, index) {
+              return React.createElement(
+                'div',
+                { className: 'subcontainer', key: index },
+                React.createElement(
+                  'button',
+                  { onClick: function onClick() {
+                      return _this3.handleRemove(index);
+                    }, className: 'minusButton' },
+                  '\u2501'
+                ),
+                React.createElement('input', { onChange: function onChange(e) {
+                    return _this3.handleChange(e, index);
+                  }, value: input, className: 'input' })
+              );
+            })
+          ),
+          React.createElement(
+            'div',
+            { className: 'col-12 col-sm-12 col-md-6 textarea-side text-right' },
+            React.createElement('textarea', { name: 'textarea', className: 'textarea-tab', cols: '30', rows: '15', value: this.state.inputs })
+          )
+        ));
+      }
+      return contentTabs;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return React.createElement(
+        'div',
+        { className: "tab-panel" + (this.props.active ? ' active' : '') },
+        this.contentTabs()
+      );
+    }
+  }]);
+
+  return Tab;
+}(React.Component);
+
+Tab.defaultProps = {
+  active: false
+};
+
+var App = function (_React$Component3) {
+  _inherits(App, _React$Component3);
+
+  function App(props) {
+    _classCallCheck(this, App);
+
+    var _this4 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+    _this4.state = {
+      activeIndex: 1
+    };
+    return _this4;
+  }
+  //Function for TABS NAME
+
+
+  _createClass(App, [{
     key: 'tabsDraw',
     value: function tabsDraw() {
-      var tabsNo = 6;
+      var tabsNo = 5;
       var tabNum = 1;
       var tabChar = 'a';
       var total = [];
@@ -166,56 +220,7 @@ var App = function (_React$Component3) {
     value: function render() {
       var tabs = this.tabsDraw();
       tabs = tabs.map(function (el, i) {
-        var _this4 = this;
-
-        return React.createElement(
-          Tab,
-          { id: el.id, key: i, content: el.name, title: el.name },
-          React.createElement(
-            'div',
-            { className: 'tabContent row' },
-            React.createElement(
-              'div',
-              { className: 'col-12 col-sm-6 input-side text-left' },
-              React.createElement(
-                'div',
-                { className: 'addNewfield text-center' },
-                React.createElement(
-                  'button',
-                  { onClick: function onClick(e) {
-                      return _this4.handleAdd(e);
-                    }, className: 'plusButton' },
-                  'Add new input'
-                )
-              ),
-              this.state.inputs.map(function (input, index) {
-                return React.createElement(
-                  'div',
-                  { className: 'subcontainer', key: index },
-                  React.createElement(
-                    'button',
-                    { onClick: function onClick() {
-                        return _this4.handleRemove(index);
-                      }, className: 'minusButton' },
-                    '\u2501'
-                  ),
-                  React.createElement('input', { onChange: function onChange(e) {
-                      return _this4.handleChange(e, index);
-                    }, value: input, className: 'input' })
-                );
-              })
-            ),
-            React.createElement(
-              'div',
-              { className: 'col-12 col-sm-6 textarea-side text-right' },
-              React.createElement(
-                'textarea',
-                { name: 'textarea', className: 'textarea-tab', cols: '30', rows: '15', value: this.state.inputs },
-                '\\n'
-              )
-            )
-          )
-        );
+        return React.createElement(Tab, { id: el.id, key: i, content: el.name, title: el.name });
       }, this);
       return React.createElement(
         Tabs,

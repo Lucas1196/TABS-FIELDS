@@ -39,31 +39,18 @@ class Tabs extends React.Component {
   }
 }
 class Tab extends React.Component {
-  render() {
-    return (
-      <div className={ "tab-panel" + (this.props.active ? ' active' : '') }>
-        { this.props.children }
-      </div>
-    )
-  }
-}
-Tab.defaultProps = { 
-  active : false
-};
-class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activeIndex : 1,
-      value: 'Add',
       inputsNumber: 1,
-      inputs: ["Input Page"," Input Page"," Input Page"],
+      inputs: [" Input1", " Input2 " ],
     };
   }
-  //Function for add new input when you push press Button ADD NEW INPUT
+  //Function for add new input when you push press
   handleAdd() {
     this.setState({
-      inputs: [...this.state.inputs, "New input"]
+      inputs: [...this.state.inputs, " New input "]
     })
   }
   //Function for change input value
@@ -80,9 +67,59 @@ class App extends React.Component {
       inputs: this.state.inputs
     })
   }
-  //Function for content Tabs
+  contentTabs() {
+    let contentTabs = [];
+    for ( let k = 1; k < 2; k++ ) {
+      contentTabs.push(
+        <div className="tabContent row">
+          <div className="col-12 col-sm-12 col-md-6 input-side text-left">
+            <div className="addNewfield text-center">
+              <button onClick={(e)=>this.handleAdd(e)} className="plusButton">
+                Add new input
+              </button>
+            </div>
+            {
+              this.state.inputs.map((input, index) => {
+                return (
+                  <div className="subcontainer" key={index}>
+                    <button onClick={()=>this.handleRemove(index)} className="minusButton">
+                      &#9473;
+                    </button>
+                    <input onChange={(e)=>this.handleChange(e, index)} value={input} className="input"/>
+                  </div>
+                )
+              })
+            }
+          </div>
+          <div className="col-12 col-sm-12 col-md-6 textarea-side text-right">
+            <textarea name="textarea" className="textarea-tab" cols="30" rows="15" value={this.state.inputs}></textarea>
+          </div>
+        </div>
+      )
+    }
+    return contentTabs;
+  }
+  render() {
+    return (
+      <div className={ "tab-panel" + (this.props.active ? ' active' : '') }>
+        {this.contentTabs()}
+      </div>
+    )
+  }
+}
+Tab.defaultProps = { 
+  active : false
+};
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeIndex : 1,
+    };
+  }
+  //Function for TABS NAME
   tabsDraw() { 
-    let tabsNo = 6;
+    let tabsNo = 5;
     let tabNum = 1;
     let tabChar = 'a';
     let total = [];
@@ -100,32 +137,7 @@ class App extends React.Component {
     let tabs = this.tabsDraw()
         tabs = tabs.map(function (el, i) {
         return  <Tab id={el.id} key={i} content={el.name} title={el.name}> 
-                  <div className="tabContent row">
-                    <div className="col-12 col-sm-6 input-side text-left">
-                      <div className="addNewfield text-center">
-                        <button onClick={(e)=>this.handleAdd(e)} className="plusButton">
-                          Add new input
-                        </button>
-                      </div>
-                      {
-                        this.state.inputs.map((input, index) => {
-                          return (
-                            <div className="subcontainer" key={index}>
-                              <button onClick={()=>this.handleRemove(index)} className="minusButton">
-                                &#9473;
-                              </button>
-                              <input onChange={(e)=>this.handleChange(e, index)} value={input} className="input"/>
-                            </div>
-                          )
-                        })
-                      }
-                    </div>
-                    <div className="col-12 col-sm-6 textarea-side text-right">
-                        <textarea name="textarea" className="textarea-tab" cols="30" rows="15" value={this.state.inputs}>
-                        \n
-                        </textarea>
-                    </div>
-                  </div>
+                  
                 </Tab>
     }, this);
     return (    
