@@ -1,7 +1,0 @@
-{
-    "data": {
-        "red": true,
-        "black": "both",
-        "blue": ["Red", "Red1", "Red2"]
-    }
-}
